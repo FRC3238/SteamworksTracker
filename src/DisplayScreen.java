@@ -31,7 +31,7 @@ public class DisplayScreen extends JFrame {
         pack();
         setTitle(UIName+" - " + name);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1476,728);
+        setSize(1476,828);
         setVisible(true);
         setLocationRelativeTo(null);
         setResizable(false);

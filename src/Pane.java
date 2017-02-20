@@ -1,14 +1,10 @@
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 
@@ -28,10 +24,10 @@ public class Pane extends JPanel {
     int currentX = 0, currentY = 0;
     BufferedImage initialImage, resizedImage;
     EntityCollection Manager;
-    CommandDistributor cmd;
+    ValueHolder cmd;
     public Pane() throws IOException {
         Manager = new EntityCollection();
-        cmd = new CommandDistributor();
+        cmd = new ValueHolder();
         init();
         setDoubleBuffered(true);
         addKeyListener(new KeyAdapter() {

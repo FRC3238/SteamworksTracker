@@ -37,7 +37,16 @@ public class EntityCollection {
         g.setColor(Color.BLACK);
         Graphics2D g2 = (Graphics2D) g;
         g2.setStroke(new BasicStroke(thickness));
-        for(int i = 1; i < Entities.size(); i++) {
+        for(int i = 0; i < Entities.size(); i++) {
+            if(i == 0) {
+                Entity Fencepost = Entities.get(0);
+                if(0 == SelectedEntity) g.setColor(Color.RED);
+                Fencepost.drawSelf(g);
+                g.setColor(Color.BLACK);
+                Fencepost.drawAngle(g);
+                Fencepost.drawAngleVector(g);
+                continue;
+            }
             Entity Current = Entities.get(i), Past = Entities.get(i-1);
             if(i == SelectedEntity)
                 g.setColor(Color.RED);
@@ -51,7 +60,8 @@ public class EntityCollection {
     public void drawCommand(int entity, String command, Graphics g) {
         if(entity > -1)
             Entities.get(entity).drawCommand(command, g);
-
+        else
+            (new Entity(600, 250)).drawCommand(command,g);
     }
     public void sendCommand(String command, int selected) {
 System.out.println(command);
@@ -86,6 +96,10 @@ clearEntities();
              else if (command.toLowerCase().substring(0, "angle".length()).equals("angle")) {
                 double ang = Double.parseDouble(command.substring("angle".length()+1, command.length()));
                 Entities.get(selected).setAngle(ang);
+            }
+            else if (command.toLowerCase().substring(0, "remove".length()).equals("remove")) {
+                Main.UserInterface.Operator.selectedEntity = -1;
+                Entities.remove(selected);
             }
         }catch(Exception e) {
             System.out.println("Invalid! " + e.getMessage());
