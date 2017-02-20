@@ -9,7 +9,8 @@ public class Entity {
     maxX = 1397, minY = 31, maxY = 688;
     int VectorLength = 14;
     int plausible_range = 14;
-    double angle = 90.0, conversion = 1/2.028;
+    double angle = 90.0;
+    public static final double conversion = 1/2.028;
     int cDim = 9, commandSize = 8, commandHeight = 17, commandSpacing = 13, commandExtraSpacing = 3;
     public void drawConnection(Graphics2D g, Entity e) {
         g.drawLine(e.x, e.y, x, y);
@@ -52,7 +53,7 @@ public class Entity {
     }
 
     public double getYInches(double pixelX) {
-        return (double)(x-pixelX)*conversion;
+        return (double)(pixelX-OriginX)*conversion;
     }
     public int fromRobotXInchesToPixels(double inches) {
         return (int) ((inches)/conversion+OriginY);

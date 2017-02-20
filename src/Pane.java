@@ -10,6 +10,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
 
 /**
  * Created by Julee on 2/19/2017.
@@ -47,7 +48,7 @@ public class Pane extends JPanel {
                     else
                         if(e.getKeyCode() != KeyEvent.VK_SHIFT && e.getKeyCode() != KeyEvent.VK_ENTER)
                         command+=e.getKeyChar();
-                EntityCollection.wait = true;
+//                EntityCollection.wait = true;
                 repaint();
             }
             @Override public void keyReleased(KeyEvent e) {}
@@ -99,7 +100,17 @@ public class Pane extends JPanel {
         this.field = field.getImage();
     }
     public void drawPosition(Graphics g) {
-        g.drawString("("+ToRobotYInches(currentX)+", " +ToRobotXInches(currentY)+")",currentX-Position_Space,currentY-Position_Space);
+        double x = ToRobotXInches(currentY);
+        double y = ToRobotYInches(currentX);
+        int xft = (int) x/12;
+        int yft = (int) y/12;
+        x-=xft*12;
+        y-=yft*12;
+        DecimalFormat df = new DecimalFormat("#.#");
+        String xin = df.format(x);
+
+        String yin = df.format(y);
+        g.drawString("("+xft+"'"+xin+"\""+", " +yft+"'"+yin+"\""+")",currentX-Position_Space,currentY-Position_Space);
     }
     public double ToRobotYInches(int displayX) {
         return (double)(displayX-Entity.OriginX)*conversion;
@@ -107,4 +118,5 @@ public class Pane extends JPanel {
     public double ToRobotXInches(int displayY) {
         return (double)(displayY-Entity.OriginY)*conversion;
     }
+
 }

@@ -54,20 +54,33 @@ public class EntityCollection {
 
     }
     public void sendCommand(String command, int selected) {
-
+System.out.println(command);
         try {
             if (command.toLowerCase().substring(0, "x".length()).equals("x")) {
-                int x = Integer.parseInt(command.substring("x".length() + 1, command.length()));
+                double x = Double.parseDouble(command.substring("x".length() + 1, command.length()));
                 System.out.println(x);
-                Entities.get(selected).setX(x);
+                Entities.get(selected).setY(fromRobotXInchesToPixels(x));
             } else if (command.toLowerCase().substring(0, "y".length()).equals("y")) {
 
-                int y = Integer.parseInt(command.substring("y".length() + 1, command.length()));
+                double y = Double.parseDouble(command.substring("y".length() + 1, command.length()));
                 System.out.println(y);
-                Entities.get(selected).setY(y);
+                Entities.get(selected).setX(fromRobotYInchesToPixels(y));
+            }else if (command.toLowerCase().substring(0, "save".length()).equals("save")) {
+
+
+            Main.UserInterface.saveCoordinatesDirect();
+        }else if (command.toLowerCase().substring(0, "name".length()).equals("name")) {
+                String name = (command.substring("name".length()+1, command.length()));
+
+                Main.UserInterface.updateName(name);
+            }else if (command.toLowerCase().substring(0, "open".length()).equals("open")) {
+                String name = (command.substring("open".length() + 1, command.length()));
+System.out.println(name);
+clearEntities();
+                Entities = Main.UserInterface.openFile(name);
             }
             else if (command.toLowerCase().substring(0, "clear".length()).equals("clear")) {
-                Entities.clear();
+                clearEntities();
 
             }
              else if (command.toLowerCase().substring(0, "angle".length()).equals("angle")) {
@@ -77,5 +90,15 @@ public class EntityCollection {
         }catch(Exception e) {
             System.out.println("Invalid! " + e.getMessage());
         }
+    }
+    public int fromRobotXInchesToPixels(double inches) {
+        return (int) ((inches)/Entity.conversion+Entity.OriginY);
+    }
+    public int fromRobotYInchesToPixels(double inches) {
+        return (int) ((inches)/Entity.conversion+Entity.OriginX);
+    }
+    public void clearEntities() {
+            Main.UserInterface.Operator.selectedEntity = -1;
+            Entities.clear();
     }
 }
