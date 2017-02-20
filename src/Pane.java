@@ -25,10 +25,13 @@ public class Pane extends JPanel {
     BufferedImage initialImage, resizedImage;
     EntityCollection Manager;
     ValueHolder cmd;
+
+    JTextField maxVel, maxAccel, maxJerk, dt;
     public Pane() throws IOException {
         Manager = new EntityCollection();
         cmd = new ValueHolder();
         init();
+
         setDoubleBuffered(true);
         addKeyListener(new KeyAdapter() {
             @Override public void keyPressed(KeyEvent e) {
