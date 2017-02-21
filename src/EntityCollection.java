@@ -1,4 +1,8 @@
+import jaci.pathfinder.Trajectory;
+import jaci.pathfinder.Waypoint;
+
 import java.awt.*;
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -75,6 +79,11 @@ System.out.println(command);
                 double y = Double.parseDouble(command.substring("y".length() + 1, command.length()));
                 System.out.println(y);
                 Entities.get(selected).setX(fromRobotYInchesToPixels(y));
+            }else if (command.toLowerCase().substring(0, "dt".length()).equals("dt")) {
+
+                double dt = Double.parseDouble(command.substring("dt".length() + 1, command.length()));
+                System.out.println(dt);
+                Main.UserInterface.Operator.dt = dt;
             }else if (command.toLowerCase().substring(0, "save".length()).equals("save")) {
 
 
@@ -100,7 +109,14 @@ clearEntities();
             else if (command.toLowerCase().substring(0, "remove".length()).equals("remove")) {
                 Main.UserInterface.Operator.selectedEntity = -1;
                 Entities.remove(selected);
+            }  else if (command.toLowerCase().substring(0, "profile".length()).equals("profile")) {
+                passWaypoint.setWaypoint(entitiesToWaypoints());
+                passWaypoint.setConfig(new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH,
+                        Main.UserInterface.Operator.dt, Main.UserInterface.Operator.maxVel, Main.UserInterface.Operator.maxAccel,
+                        Main.UserInterface.Operator.maxJerk));
+                passWaypoint.WriteToNative(new File(DisplayScreen.getLeftName()), new File(DisplayScreen.getRightName()));
             }
+
         }catch(Exception e) {
             System.out.println("Invalid! " + e.getMessage());
         }
@@ -111,8 +127,20 @@ clearEntities();
     public int fromRobotYInchesToPixels(double inches) {
         return (int) ((inches)/Entity.conversion+Entity.OriginX);
     }
+//    public Trajectory.Config trajConfig() {
+//
+//    }
     public void clearEntities() {
             Main.UserInterface.Operator.selectedEntity = -1;
             Entities.clear();
+    }
+    public Waypoint[] entitiesToWaypoints() {
+        Waypoint[] returner = new Waypoint[Entities.size()];
+        for(int i = 0; i < Entities.size(); i++) {
+            Entity Current = Entities.get(i);
+            returner[i] = new Waypoint(Current.getXInches(), Current.getYInches(), Math.toRadians(Current.angle));
+
+        }
+        return returner;
     }
 }

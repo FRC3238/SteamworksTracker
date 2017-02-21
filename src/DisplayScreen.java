@@ -25,6 +25,8 @@ public class DisplayScreen extends JFrame {
         this.name = newName;
         setTitle(UIName+" - " + newName);
     }
+    public static String getLeftName() {return filePath+name+"LEFT";}
+    public static String getRightName() {return filePath+name+"RIGHT";}
     public void BasicConfiguration() throws IOException {
         Operator = new Pane();
         add(Operator);

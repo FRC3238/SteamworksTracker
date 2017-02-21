@@ -80,7 +80,8 @@ public class Entity {
     public double getXInches(double pixelY) {
         return (double)(pixelY-OriginY)*conversion;
     }
-
+    public double getXInches() {return (double) (y-OriginY)*conversion;}
+    public double getYInches() {return (double) (x-OriginX)*conversion;}
     public double getYInches(double pixelX) {
         return (double)(pixelX-OriginX)*conversion;
     }
