@@ -29,9 +29,38 @@ public class Entity {
 
     }
     public void drawAngleVector(Graphics g) {
+        int backLx, backLy, frontLx, frontLy, backRx, backRy, frontRx, frontRy;
+        double rAngle = Math.toRadians(angle);
+        double length = ProfilingConstants.kRobotLengthWithBumpers/2;
+        double width = ProfilingConstants.kRobotWidthWithBumpers/2;
+        double xCompWidth, yCompWidth, xCompLength, yCompLength;
+        xCompWidth = (width*Math.cos(rAngle))/conversion;
+        yCompWidth = (width*Math.sin(rAngle))/conversion;
+        yCompLength = (length*Math.cos(rAngle))/conversion;
+        xCompLength = (length*Math.sin(rAngle))/conversion;
+        backLx = (int) (xCompWidth-xCompLength)+x;
+        backLy = (int) (-yCompWidth-yCompLength)+y;
+
+        frontLx = (int) (xCompWidth+xCompLength)+x;
+        frontLy = (int) (yCompLength-yCompWidth)+y;
+
+        backRx = (int) 2*x-backLx;
+        backRy = (int) 2*y-backLy;
+
+        frontRx = (int) 2*x-frontLx;
+        frontRy = (int) 2*y-frontLy;
         g.setColor(Color.BLUE);
-        g.drawLine(x, y,(int) (x+VectorLength*Math.sin(Math.toRadians(angle))),(int)(y+VectorLength*Math.cos(Math.toRadians(angle))));
-                g.setColor(Color.BLACK);
+        g.drawLine(x, y,(int) (x+VectorLength*Math.sin(rAngle)),(int)(y+VectorLength*Math.cos(rAngle)));
+               g.setColor(Color.DARK_GRAY);
+               g.drawLine(backLx, backLy, frontLx, frontLy);
+               g.drawLine(backLx, backLy, frontRx, frontRy);
+        g.drawLine(frontLx, frontLy, backRx, backRy);
+
+        g.drawLine(backRx, backRy, frontRx, frontRy);
+
+
+        g.setColor(Color.BLACK);
+
     }
     public void changeParametersToCoordinates(int x, int y) {
         x = (int) fromRobotYInchesToPixels(y);
@@ -40,11 +69,11 @@ public class Entity {
     public void changeParameters(int x, int y) {
 //        x = (int)getYInches((double)x);
 //        y = getYInches((double)y);
-        if(x<OriginX) x = OriginX;
+        if(x<OriginX+ProfilingConstants.kRobotLengthWithBumpers) x = (int)(OriginX+ProfilingConstants.kRobotLengthWithBumpers);
         if(x > maxX) x = maxX;
         this.x = x;
-        if(y < minY) y = minY;
-        if(y > maxY) y = maxY;
+        if(y < minY + ProfilingConstants.kRobotLengthWithBumpers) y = (int)(minY+ProfilingConstants.kRobotLengthWithBumpers);
+        if(y > maxY-ProfilingConstants.kRobotLengthWithBumpers) y = (int)(maxY-ProfilingConstants.kRobotLengthWithBumpers);
         this.y = y;
 
     }
