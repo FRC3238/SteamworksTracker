@@ -12,7 +12,7 @@ import java.util.Scanner;
  */
 public class DisplayScreen extends JFrame {
     JFrame Display;
-    public static final String UIName = "Steamworks Motion Profiler", filePath="C:/Users/Julee/IdeaProjects/SteamworksTracker/";
+    public static final String UIName = "Steamworks Motion Profiler", filePath="C:\\Users\\Garrett\\Documents\\MotionProfileOutput\\";
     static String name = "First Version";
     Pane Operator;
     ArrayList<Double> OperatorPass = new ArrayList<Double>();
@@ -25,6 +25,8 @@ public class DisplayScreen extends JFrame {
         this.name = newName;
         setTitle(UIName+" - " + newName);
     }
+    public static String getLeftName() {return filePath+name+"LEFT.java";}
+    public static String getRightName() {return filePath+name+"RIGHT.java";}
     public void BasicConfiguration() throws IOException {
         Operator = new Pane();
         add(Operator);
@@ -52,23 +54,19 @@ public class DisplayScreen extends JFrame {
     public ArrayList<Entity> openFile(String filename) throws FileNotFoundException {
 
 
-    File f = new File(filename);
+    File f = new File(filePath + filename);
     System.out.println(f.exists());
     System.out.println(f.getAbsolutePath());
 
     Scanner Reader = new Scanner(f);
     if(OperatorPass.size() > 0)
     OperatorPass.clear();
-    System.out.println("Here now");
     while (Reader.hasNextLine()) {
 
-        System.out.println("Here nowL");
         while (Reader.hasNext()) {
 
-            System.out.println("Here nowN");
             while (Reader.hasNextDouble()) {
 
-                System.out.println("Here nowD");
                 OperatorPass.add(Reader.nextDouble());
             }
             if(Reader.hasNext())

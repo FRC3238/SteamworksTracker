@@ -25,8 +25,8 @@ public class Pane extends JPanel {
     BufferedImage initialImage, resizedImage;
     EntityCollection Manager;
     ValueHolder cmd;
-
-    JTextField maxVel, maxAccel, maxJerk, dt;
+    double maxVel = 50, maxAccel = 50, maxJerk = 900, dt = 0.01;
+//    JTextField maxVel, maxAccel, maxJerk, dt;
     public Pane() throws IOException {
         Manager = new EntityCollection();
         cmd = new ValueHolder();
