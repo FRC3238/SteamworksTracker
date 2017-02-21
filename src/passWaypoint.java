@@ -1,3 +1,4 @@
+
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Waypoint;
@@ -34,15 +35,23 @@ public class passWaypoint {
         Trajectory lTraj, rTraj;
         lTraj = mod.getLeftTrajectory();
         rTraj = mod.getRightTrajectory();
-        pw.append(""+lTraj.length());
-        pwr.append(""+rTraj.length());
+        pw.append("package org.usfirst.frc.team3238.robot.Autonomous.Profile;\npublic static class " + Left.getName() + " {\npublic static double[][] Points = new double[][]{");
         for(int i = 0; i < lTraj.length(); i++) {
-            pw.append(""+(lTraj.segments[i].position / (Math.PI * ProfilingConstants.kWheelDiameter)) + " " +
-                            (lTraj.segments[i].velocity * 60 / (Math.PI * ProfilingConstants.kWheelDiameter)) + " " +
-                    (lTraj.segments[i].dt * 1000)+ " ");
-            pwr.append(""+(rTraj.segments[i].position / (Math.PI * ProfilingConstants.kWheelDiameter)) + " " +
-                    (rTraj.segments[i].velocity * 60 / (Math.PI * ProfilingConstants.kWheelDiameter)) + " " +
-                    (rTraj.segments[i].dt * 1000)+ " ");
+            pw.append("{"+(lTraj.segments[i].position / (Math.PI * ProfilingConstants.kWheelDiameter)) + ", " +
+                            (lTraj.segments[i].velocity * 60 / (Math.PI * ProfilingConstants.kWheelDiameter)) + ", " +
+                    (lTraj.segments[i].dt * 1000)+ "} ");
+            pwr.append("{"+(rTraj.segments[i].position / (Math.PI * ProfilingConstants.kWheelDiameter)) + ", " +
+                    (rTraj.segments[i].velocity * 60 / (Math.PI * ProfilingConstants.kWheelDiameter)) + ", " +
+                    (rTraj.segments[i].dt * 1000)+ "} ");
+            if(i!=lTraj.length()-1)
+            {
+                pw.append(",");
+                pwr.append(",");
+            }
+            else {
+                pw.append("};\n}");
+                pwr.append("};\n}");
+            }
         }
         pw.close();
         pwr.close();
